@@ -136,3 +136,8 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 ---
 *Download, enterprise deployment guide, and security documentation at [safew-official.com](https://safew-official.com)*
+
+## Related Projects
+- [KuaiLian VPN](https://github.com/mojinmopin-art/kuailian-vpn-client) - Secure VPN connection tool
+- [QClaw AI](https://github.com/mojinmopin-art/qclaw-ai-assistant) - AI chat assistant for WeChat and QQ
+- [OpenClaw AI](https://github.com/mojinmopin-art/openclaw-ai-assistant) - AI browser assistant
