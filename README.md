@@ -1,86 +1,138 @@
-# SafeW - Web Security & Safe Browsing Tool
+# SafeW - Secure Instant Messaging / 安全即时通讯
 
 [![Official Site](https://img.shields.io/badge/Official_Site-safew--official.com-brightgreen)](https://safew-official.com)
 [![Version](https://img.shields.io/badge/Version-2026.4-blue)]()
 [![License](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
 
-SafeW is a browser security tool that provides real-time protection against phishing, malware, and unsafe downloads. Designed to work alongside your existing antivirus without conflicts.
+In the digital age, your communication security matters more than ever. SafeW is a highly secure instant messaging application designed for users and enterprises who prioritize privacy above all else. Built on Telegram's end-to-end encryption technology, SafeW ensures your conversations are fully encrypted in transit — only the participants can access the message content.
 
-## Features
+## Core Features
 
-- **Phishing Detection**: Real-time URL scanning against known phishing databases
-- **Download Scanner**: Checks file hashes against malware databases before download completes
-- **Privacy Guard**: Blocks known tracking scripts and fingerprinting attempts
-- **Safe Search**: Highlights potentially dangerous search results with warning badges
-- **Password Leak Monitor**: Alerts when your saved credentials appear in data breaches
+- **End-to-End Encryption**: Based on Telegram's MTProto 2.0 protocol, all messages are encrypted before leaving your device
+- **Private Deployment**: Self-host SafeW on your own infrastructure for complete data sovereignty
+- **Self-Destructing Messages**: Set auto-delete timers from 1 second to 1 week
+- **Secret Chats**: Device-specific encryption that leaves no trace on servers
+- **Encrypted File Transfer**: Send documents, images, and videos with full encryption (up to 2GB per file)
+- **Multi-Device Sync**: Securely sync across phone, tablet, and desktop with per-device encryption keys
 
-## Browser Compatibility
+## Platform Support
 
-| Browser | Version | Status |
-|---------|---------|--------|
-| Chrome | 118+ | ✅ Full support |
-| Edge | 118+ | ✅ Full support |
-| Firefox | 120+ | ✅ Full support |
-| Brave | 1.60+ | ✅ Compatible |
-| Opera | 104+ | ⚠️ Partial (no download scanning) |
+| Platform | Version | Status |
+|----------|---------|--------|
+| Android | 8.0+ | ✅ Full support |
+| iOS | 14+ | ✅ Full support |
+| Windows | 10+ | ✅ Desktop client |
+| macOS | 12+ | ✅ Desktop client |
+| Linux | Ubuntu 20.04+ | ✅ Desktop client |
+| Web | Chrome/Edge/Firefox | ✅ Web client |
+
+## Why SafeW?
+
+### vs. Standard Messaging Apps
+
+| Feature | SafeW | WhatsApp | Telegram | Signal |
+|---------|-------|----------|----------|--------|
+| End-to-End Encryption | ✅ All chats | ✅ All chats | ⚠️ Secret chats only | ✅ All chats |
+| Private Deployment | ✅ | ❌ | ❌ | ❌ |
+| No Phone Number Required | ✅ | ❌ | ❌ | ❌ |
+| Open Source Client | ✅ | ❌ | ✅ Partial | ✅ |
+| Max File Size | 2 GB | 2 GB | 2 GB | 100 MB |
+| Self-Destructing Messages | ✅ | ✅ | ✅ | ✅ |
+| Server-side Data Retention | Zero (private deploy) | Metadata stored | Messages stored | Minimal |
+
+### Private Deployment Advantage
+
+SafeW's most distinctive feature is **private deployment support**. Organizations can:
+
+1. Host the entire SafeW server stack on their own infrastructure
+2. All messages, files, and metadata stay within your network
+3. No third-party can access, subpoena, or leak your communications
+4. Full audit control over encryption keys and user management
+
+This makes SafeW ideal for:
+- **Enterprises** with strict data compliance requirements (GDPR, HIPAA)
+- **Government agencies** handling classified communications
+- **Journalism and activism** in sensitive environments
+- **Healthcare providers** needing HIPAA-compliant messaging
+
+## Encryption Technical Details
+
+### Protocol Stack
+
+```
+Application Layer (message content)
+    ↓
+SafeW Encryption Layer (AES-256-IGE + SHA-256 HMAC)
+    ↓
+MTProto 2.0 Transport (Diffie-Hellman key exchange)
+    ↓
+TLS 1.3 (transport security)
+    ↓
+Network Layer
+```
+
+### Key Exchange Process
+
+1. **Initial Handshake**: Client generates a 2048-bit RSA key pair
+2. **DH Key Exchange**: Diffie-Hellman parameters negotiated with server
+3. **Session Key**: 256-bit AES session key derived from shared secret
+4. **Perfect Forward Secrecy**: Session keys rotated every 100 messages or 1 hour
+
+### Secret Chat Encryption
+
+Secret Chats use an additional layer:
+- Device-to-device encryption (server cannot decrypt)
+- Visualization of encryption key fingerprint for manual verification
+- Screenshot detection and notification
+- No message forwarding allowed
 
 ## Installation
 
-1. Visit [safew-official.com](https://safew-official.com) for the latest version
-2. Click "Add to Browser" for automatic installation
-3. SafeW starts protecting immediately — no configuration needed
+### Personal Use
+1. Visit [safew-official.com](https://safew-official.com) to download for your platform
+2. Create an account (no phone number required — email or username only)
+3. Start messaging securely
 
-## How It Works
-
-SafeW uses a multi-layer detection approach:
-
-```
-URL Request
-    ↓
-Layer 1: Local Bloom filter (instant, offline check against 2M+ known threats)
-    ↓
-Layer 2: Safe Browsing API (Google's threat database, updated every 30 min)
-    ↓
-Layer 3: Heuristic analysis (checks for suspicious patterns in page structure)
-    ↓
-Result: Safe ✅ / Warning ⚠️ / Blocked 🚫
-```
-
-### Performance Impact
-- **Memory**: ~15MB average (Bloom filter stored in SharedArrayBuffer)
-- **Latency**: <5ms for local checks, <100ms for API checks
-- **Battery**: Negligible impact on laptop battery life
+### Enterprise / Private Deployment
+1. Visit [safew-official.com](https://safew-official.com) for deployment documentation
+2. Minimum server requirements: 4 vCPU, 8GB RAM, 100GB SSD
+3. Docker-based deployment with `docker-compose up`
+4. Configure DNS, TLS certificates, and admin panel
 
 ## Common Issues
 
-### "SafeW blocked a safe website"
-False positives can occur. To whitelist a trusted site:
-1. Click the SafeW icon in toolbar
-2. Select "Trust this site"
-3. The site is added to your local whitelist
+### Messages not delivering
+Check your network connection. SafeW requires port 443 (HTTPS) to be open. Some corporate firewalls may block the MTProto protocol. Try enabling "TCP Fallback Mode" in Settings → Network.
 
-### Extension conflicts with other security tools
-SafeW is designed to coexist with other security extensions. However, if you experience issues:
-- Disable "Enhanced Protection" in Chrome settings (SafeW replaces this)
-- Check our [compatibility guide](https://safew-official.com) for known conflicts
+### Encryption key verification failed
+This occurs when a contact re-installs SafeW or switches devices. The encryption keys are regenerated for security. You'll see a notification — verify the new key fingerprint with your contact through a separate channel.
 
-### High CPU usage during scanning
-This can happen when scanning large downloads (>500MB). The scanning is done in a Web Worker and should not affect browsing. If it persists, visit our [diagnostic page](https://safew-official.com).
+### Private deployment sync issues
+Ensure all server nodes have synchronized clocks (NTP). Clock drift >5 seconds causes authentication failures between federated nodes.
 
-## Privacy
+For more troubleshooting, visit [safew-official.com](https://safew-official.com).
 
-- SafeW does **not** collect browsing history
-- URL checks use k-anonymity (partial hash matching) — full URLs never leave your device
-- All data processing happens locally unless the Bloom filter needs a cloud lookup
-- Full privacy policy: [safew-official.com](https://safew-official.com)
+## Frequently Asked Questions
+
+**Q: Can SafeW be wiretapped?**
+A: With end-to-end encryption enabled, messages cannot be intercepted or read by anyone — including SafeW servers (or your own servers in private deployment). Only the sender and recipient hold the decryption keys.
+
+**Q: What happens if I lose my device?**
+A: Secret Chat messages exist only on the paired devices and cannot be recovered. Regular encrypted messages can be restored from the server (or your private server) after re-authentication.
+
+**Q: Is SafeW free?**
+A: The personal version is free. Enterprise private deployment requires a license — see [safew-official.com](https://safew-official.com) for pricing.
+
+**Q: How does SafeW compare to Signal?**
+A: Both offer strong encryption. SafeW's key differentiator is **private deployment** — Signal requires using Signal's servers, while SafeW lets you host everything yourself.
 
 ## Contributing
 
-Security researchers: we welcome responsible disclosure of vulnerabilities. Please open a private [Issue](../../issues) or contact us through the official site.
+Security researchers are welcome to review our encryption implementation. Responsible disclosure via [Issues](../../issues) or through the official site.
 
 ## License
 
 MIT License - see [LICENSE](LICENSE) for details.
 
 ---
-*Download, documentation, and threat statistics at [safew-official.com](https://safew-official.com)*
+*Download, enterprise deployment guide, and security documentation at [safew-official.com](https://safew-official.com)*
